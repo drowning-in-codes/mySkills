@@ -47,51 +47,65 @@ pip install -r requirements.txt
 python run_pipeline.py
 ```
 
-#### 详细用法
+### 2. Anime Crawler - 动漫资讯爬虫
+
+爬取多个动漫资讯网站和新番信息，执行完整的 **爬取 -> 提取 -> 整理 -> 整合** 流程。
+
+#### 支持的网站
+
+- **资讯网站**: 梦域动漫 (moelove.cn)、AniFun (anifun.cn)、HotACG (hotacg.com)
+- **新番信息**: 長門番堂 (yuc.wiki)
+
+#### 功能特点
+
+- 🌐 **多站点爬取**: 同时爬取多个动漫相关网站
+- 🎬 **新番信息**: 专门提取新番播送时间和状态
+- 🔍 **智能提取**: 针对不同网站的结构进行优化
+- 📊 **综合报告**: 整合资讯和新番信息，生成统一报告
+- ⚙️ **灵活配置**: 支持选择特定网站进行爬取
+
+#### 快速开始
 
 ```bash
+# 进入 skill 目录
+cd .trae/skills/anime-crawler/scripts
+
+# 安装依赖
+pip install -r requirements.txt
+
 # 运行完整流程
 python run_pipeline.py
 
-# 指定目标 URL
-python run_pipeline.py --url https://hn.aimaker.dev/
-
-# 过滤低分文章（只保留分数 >= 50 的）
-python run_pipeline.py --min-score 50
-
-# 跳过爬取，从已有 HTML 开始
-python run_pipeline.py --skip-crawl --input-file data/raw/hn_aimaker_xxx.html
-
-# 只运行总结步骤
-python run_pipeline.py --skip-crawl --skip-extract --skip-organize \
-    --input-file data/organized/articles_organized_xxx.json
+# 只爬取特定网站
+python run_pipeline.py --websites moelove,yuc
 ```
 
 #### 工作流程
 
 ```
 ┌─────────┐    ┌──────────┐    ┌──────────┐    ┌───────────┐
-│  Crawl  │ -> │ Extract  │ -> │ Organize │ -> │ Summarize │
-│  爬取   │    │  提取    │    │  整理    │    │  总结     │
+│  Crawl  │ -> │ Extract  │ -> │ Organize │ -> │ Integrate │
+│  爬取   │    │  提取    │    │  整理    │    │  整合     │
 └─────────┘    └──────────┘    └──────────┘    └───────────┘
      │               │               │               │
      ▼               ▼               ▼               ▼
-data/raw/      data/extracted/  data/organized/  data/summary/
+data/raw/      data/extracted/  data/organized/  data/integrated/
 *.html          *.json           *.json           *.md
 ```
 
 #### 输出示例
 
 **数据概览**:
-- 文章总数: 30
-- 总热度: 2847
-- 总评论数: 523
-- 平均热度: 94.9
+- 新闻总数: 45
+- 新番总数: 68
 
-**热门话题**:
-- 🔥 AI (12 篇文章, 总热度: 1250)
-- 💻 Programming (8 篇文章, 总热度: 680)
-- 🚀 Startup (5 篇文章, 总热度: 520)
+**热门资讯**:
+- 《地狱老师》新 PV 与视觉图公开 主题曲信息释出
+- 《海贼王》真人剧第二季公开乔巴影像，2026年上线
+
+**新番信息**:
+- **即将开播**: 2025年7月新番 15 部
+- **正在放送**: 2025年4月新番 28 部
 
 ## 🛠️ 如何添加新 Skill
 
