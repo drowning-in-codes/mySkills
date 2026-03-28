@@ -107,6 +107,67 @@ data/raw/      data/extracted/  data/organized/  data/integrated/
 - **即将开播**: 2025年7月新番 15 部
 - **正在放送**: 2025年4月新番 28 部
 
+### 3. Pixivision Wechat - 插画爬取与微信上传
+
+爬取 [Pixivision](https://www.pixivision.net/zh/) 网站插画，并通过微信公众平台接口上传图片、创建草稿并群发消息。
+
+#### 功能特点
+
+- 🌐 **智能爬取**: 支持爬取插画列表和指定插画详情
+- 🎨 **图片处理**: 自动下载和处理插画图片
+- 💾 **数据存储**: 将插画信息存储到 JSON 文件
+- 📱 **微信集成**: 完整的微信公众平台接口集成
+- 🔒 **Token 管理**: 自动管理 Access Token 过期和刷新
+- ⚙️ **灵活配置**: 支持命令行参数和配置文件
+
+#### 支持的微信接口
+
+- **素材上传**: 永久素材、临时素材、图文消息内图片
+- **草稿管理**: 新增草稿
+- **消息群发**: 根据标签群发消息
+
+#### 快速开始
+
+```bash
+# 进入 skill 目录
+cd .trae/skills/pixivision-wechat/scripts
+
+# 安装依赖
+pip install -r requirements.txt
+
+# 配置微信参数（在 config.py 中设置 app_id 和 app_secret）
+
+# 爬取插画列表
+python run_pipeline.py --crawl --pages 1-3
+
+# 爬取指定插画
+python run_pipeline.py --crawl --url https://www.pixivision.net/zh/a/11497
+
+# 上传到微信
+python run_pipeline.py --upload --illustration 11497
+
+# 创建草稿
+python run_pipeline.py --draft --illustration 11497
+
+# 群发消息
+python run_pipeline.py --send --draft_id 123456
+```
+
+#### 工作流程
+
+```
+┌─────────┐    ┌──────────┐    ┌──────────┐    ┌─────────────┐    ┌──────────┐
+│  Crawl  │ -> │ Extract  │ -> │  Store   │ -> │ WeChat Auth │ -> │  Upload  │
+│  爬取   │    │  提取    │    │  存储    │    │  微信认证   │    │  上传    │
+└─────────┘    └──────────┘    └──────────┘    └─────────────┘    └──────────┘
+     │               │               │               │               │
+     ▼               ▼               ▼               ▼               ▼
+爬取插画列表     提取插画信息     存储到JSON     获取Access Token  上传到微信
+                    │                                   │
+                    ▼                                   ▼
+            爬取指定插画详情                      新增草稿并群发
+```
+
 ## 🛠️ 如何添加新 Skill
 
 1. 在 `.trae/skills/` 目录下创建新的 skill 目录
